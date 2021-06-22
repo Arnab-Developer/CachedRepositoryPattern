@@ -1,39 +1,47 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
-using WebApplication1.Lib.Abstractions;
+using WebApplication1.Lib.Data;
 using WebApplication1.Lib.Models;
 
 namespace WebApplication1.Lib.Repos
 {
-    public class CachedStudentRepo : ICachedStudentRepo
+    public class CachedStudentRepo : StudentRepo
     {
-        private readonly IStudentRepo _studentRepo;
+        private readonly static object _cacheLockObject;
         private readonly IDistributedCache _cache;
 
-        public CachedStudentRepo(IStudentRepo studentRepo, IDistributedCache cache)
+        static CachedStudentRepo()
         {
-            _studentRepo = studentRepo;
+            _cacheLockObject = new object();
+        }
+
+        public CachedStudentRepo(StudentContext studentContext, IDistributedCache cache)
+            : base(studentContext)
+        {
             _cache = cache;
         }
 
-        IEnumerable<Student> ICachedStudentRepo.GetAllStudents()
+        public override IEnumerable<Student> GetAllStudents()
         {
-            byte[] resultFromCache = _cache.Get("Students");
-            IEnumerable<Student> students;
-            if (resultFromCache != null)
+            IEnumerable<Student>? students
+                = SerializationHelper.FromByteArray<IEnumerable<Student>>(_cache.Get("Students"));
+            if (students == null)
             {
-                students = SerializationHelper.FromByteArray<IEnumerable<Student>>(resultFromCache);
-            }
-            else
-            {
-                students = _studentRepo.GetAllStudents();
+                lock (_cacheLockObject)
+                {
+                    students = SerializationHelper.FromByteArray<IEnumerable<Student>>(_cache.Get("Students"));
+                    if (students == null)
+                    {
+                        students = base.GetAllStudents();
 
-                DistributedCacheEntryOptions options = new();
-                options.SetSlidingExpiration(TimeSpan.FromSeconds(60));
-                options.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
+                        DistributedCacheEntryOptions options = new();
+                        options.SetSlidingExpiration(TimeSpan.FromSeconds(60));
+                        options.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
 
-                _cache.Set("Students", SerializationHelper.ToByteArray(students), options);
+                        _cache.Set("Students", SerializationHelper.ToByteArray(students), options);
+                    }
+                }
             }
             return students;
         }

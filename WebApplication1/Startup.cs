@@ -30,8 +30,7 @@ namespace WebApplication1
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
             });
 
-            services.AddTransient(typeof(ICachedStudentRepo), typeof(CachedStudentRepo));
-            services.AddTransient(typeof(IStudentRepo), typeof(StudentRepo));
+            services.AddTransient(typeof(IStudentRepo), typeof(CachedStudentRepo));
 
             services.AddDbContext<StudentContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("StudentDbConnectionString")));

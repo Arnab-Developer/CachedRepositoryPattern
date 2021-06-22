@@ -9,9 +9,9 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class StudentController : ControllerBase
     {
-        private readonly ICachedStudentRepo _cachedStudentRepo;
+        private readonly IStudentRepo _cachedStudentRepo;
 
-        public StudentController(ICachedStudentRepo cachedStudentRepo)
+        public StudentController(IStudentRepo cachedStudentRepo)
         {
             _cachedStudentRepo = cachedStudentRepo;
         }

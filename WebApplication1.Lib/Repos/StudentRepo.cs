@@ -15,7 +15,7 @@ namespace WebApplication1.Lib.Repos
             _studentContext = studentContext;
         }
 
-        IEnumerable<Student> IStudentRepo.GetAllStudents()
+        public virtual IEnumerable<Student> GetAllStudents()
         {
             return _studentContext.Students!.OrderBy(s => s.Id).ToList();
         }

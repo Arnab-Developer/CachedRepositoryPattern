@@ -1,5 +1,6 @@
 ﻿using ProtoBuf;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace WebApplication1.Lib
@@ -15,9 +16,10 @@ namespace WebApplication1.Lib
             return stream.ToArray();
         }
 
-        public static T FromByteArray<T>(byte[] input)
+        [return: MaybeNull]
+        public static T FromByteArray<T>(byte[]? input)
         {
-            if (input == null) throw new ArgumentNullException(nameof(input));
+            if (input == null) return default;
 
             using MemoryStream stream = new(input);
             return Serializer.Deserialize<T>(stream);
