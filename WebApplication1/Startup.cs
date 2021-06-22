@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WebApplication1.Lib.Abstractions;
+using WebApplication1.Lib.Data;
+using WebApplication1.Lib.Repos;
 
 namespace WebApplication1
 {
@@ -19,12 +23,20 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
             });
+
+            services.AddTransient(typeof(ICachedStudentRepo), typeof(CachedStudentRepo));
+            services.AddTransient(typeof(IStudentRepo), typeof(StudentRepo));
+
+            services.AddDbContext<StudentContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("StudentDbConnectionString")));
+
+            services.AddDistributedMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
