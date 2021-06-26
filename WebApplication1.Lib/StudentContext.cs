@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication1.Lib.Models;
 
-namespace WebApplication1.Lib.Data
+namespace WebApplication1.Lib
 {
     public class StudentContext : DbContext
     {

@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
-using WebApplication1.Lib.Data;
-using WebApplication1.Lib.Models;
 
-namespace WebApplication1.Lib.Repos
+namespace WebApplication1.Lib
 {
     public class CachedStudentRepo : StudentRepo
     {

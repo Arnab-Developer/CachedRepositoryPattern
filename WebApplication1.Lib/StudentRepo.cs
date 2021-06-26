@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebApplication1.Lib.Abstractions;
-using WebApplication1.Lib.Data;
-using WebApplication1.Lib.Models;
 
-namespace WebApplication1.Lib.Repos
+namespace WebApplication1.Lib
 {
     public class StudentRepo : IStudentRepo
     {

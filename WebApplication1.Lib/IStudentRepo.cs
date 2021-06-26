@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using WebApplication1.Lib.Models;
 
-namespace WebApplication1.Lib.Abstractions
+namespace WebApplication1.Lib
 {
     public interface IStudentRepo
     {

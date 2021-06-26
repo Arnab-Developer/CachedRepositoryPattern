@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace WebApplication1.Lib.Models
+namespace WebApplication1.Lib
 {
     [ProtoContract]
     public class Student

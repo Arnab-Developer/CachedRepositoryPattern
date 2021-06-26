@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebApplication1.Lib.Abstractions;
-using WebApplication1.Lib.Models;
+using WebApplication1.Lib;
 
 namespace WebApplication1.Controllers
 {

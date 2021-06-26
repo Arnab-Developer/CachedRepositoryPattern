@@ -5,9 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using WebApplication1.Lib.Abstractions;
-using WebApplication1.Lib.Data;
-using WebApplication1.Lib.Repos;
+using WebApplication1.Lib;
 
 namespace WebApplication1
 {
